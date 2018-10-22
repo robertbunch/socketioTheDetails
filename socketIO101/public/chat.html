@@ -39,7 +39,6 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     const socket = io('http://localhost:9000');
-    const socket2 = io('http://localhost:9000/admin');
     console.log(socket.io)
     socket.on('connect',()=>{
         console.log(socket.id)
