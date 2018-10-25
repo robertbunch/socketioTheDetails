@@ -1,0 +1,15 @@
+    input{
+        width: 100%;
+        height: 35px;
+    }
+    #messages{
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+    #messages li{
+        padding: 5px 10px;
+    }
+    #message li:nth-child(odd){
+        background: #aaa;
+    }
