@@ -1,31 +1,25 @@
-const socket = io('http://localhost:5000');
+const socket = io('http://localhost:9000'); // the / namespace/endpoint
+const socket2 = io('http://localhost:9000/admin') //the /admin namespace
 console.log(socket.io)
 socket.on('connect',()=>{
     console.log(socket.id)
 })
 
-socket.on('nsList',(nsList)=>{
-    console.log(nsList)
+socket2.on('connect',()=>{
+    console.log(socket.id)
 })
 
-socket.on('catchUpMessages',(msgs)=>{
-    console.log(msgs)
-    msgs.data.forEach(msg => {
-        const currentMessages = document.querySelector('#messages').innerHTML;
-        document.querySelector('#messages').innerHTML = `<li>${msg}</li>` + currentMessages;
-    });
-});
+socket.on('welcome',(msg)=>{
+    console.log(msg)
+})
+socket2.on('welcome',(msg)=>{
+    console.log(msg)
+})
+
 
 socket.on('messageFromServer',(dataFromServer)=>{
-    // console.log(dataFromServer);
+    console.log(dataFromServer);
     socket.emit('dataToServer',{data: "Data from the Client!"})
-})
-
-socket.on('messageToClients',(msg)=>{
-    console.log(msg)
-    const currentMessages = document.querySelector('#messages').innerHTML;
-    document.querySelector('#messages').innerHTML = `<li>${msg.text} - ${(msg.time - Date.now())/1000} seconds ago</li>` + currentMessages
-    document.querySelector('#user-message').value = ""
 })
 
 document.querySelector('#message-form').addEventListener('submit',(event)=>{
@@ -34,8 +28,17 @@ document.querySelector('#message-form').addEventListener('submit',(event)=>{
     socket.emit('newMessageToServer',{text: newMessage})
 })
 
-function joinRoom(roomJoin,roomLeave){
-    socket.emit('joinRoom',roomJoin,roomLeave);
-    console.log("Sup")
-}
+socket.on('messageToClients',(msg)=>{
+    console.log(msg)
+    document.querySelector('#messages').innerHTML += `<li>${msg.text}</li>`
+})
 
+// socket.on('ping',()=>{
+//     console.log('Ping was recieved from the server.');
+//     console.log(io.protocol)
+// })
+
+// socket.on('pong',(latency)=>{
+//     console.log(latency);
+//     console.log("Pong was sent to the server.")
+// })
