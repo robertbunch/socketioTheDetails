@@ -4,9 +4,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-1 namespaces">
-            <div class="namespace"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Wikipedia-logo-v2.svg/103px-Wikipedia-logo-v2.svg.png" /></div>
-            <div class="namespace"><img src="https://www.mozilla.org/media/img/logos/firefox/logo-quantum.9c5e96634f92.png" /></div>
-            <div class="namespace"><img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png" /></div>
+            <!-- Filled out by socket connection -->
         </div>
         <div class="col-sm-2 rooms">
             <h3>Rooms</h3>
@@ -17,10 +15,10 @@
         </div>
         <div class="chat-panel col-sm-9">
             <div class="room-header row col-6">
-                <div class="col-sm-3 curr-room">Current Room <span class="num-users">Users <span class="glyphicon glyphicon-user"></span></span></div>
+                <div class="col-sm-3"><span class="curr-room-text">Current Room</span> <span class="curr-room-num-users">Users <span class="glyphicon glyphicon-user"></span></span></div>
                 <div class="col-sm-3 search pull-right">
                         <span class="glyphicon glyphicon-search"></span>
-                    <input type="text" id="search-box" value="Search" />
+                    <input type="text" id="search-box" placeholder="Search" />
                 </div>
             </div> 
             <div class="message-form">
@@ -50,3 +48,5 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/scripts.js"></script>
+<script src="/joinNs.js"></script>
+<script src="/joinRoom.js"></script>
