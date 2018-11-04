@@ -1,21 +1,54 @@
 const socket = io('http://localhost:9000'); // the / namespace/endpoint
-const socket2 = io('http://localhost:9000/admin') //the /admin namespace
+
+
 console.log(socket.io)
 socket.on('connect',()=>{
     console.log(socket.id)
 })
 
-socket2.on('connect',()=>{
-    console.log(socket.id)
-})
+// listen for nsList, which is a list of all the namespaces.
+socket.on('nsList',(nsData)=>{
+    console.log("The list of namespaces has arrived!!")
+    // console.log(nsData)
+    let namespacesDiv = document.querySelector('.namespaces');
+    namespacesDiv.innerHTML = "";
+    nsData.forEach((ns)=>{
+        namespacesDiv.innerHTML += `<div class="namespace" ns=${ns.endpoint} ><img src="${ns.img}" /></div>`
+    })
 
-socket.on('welcome',(msg)=>{
-    console.log(msg)
-})
-socket2.on('welcome',(msg)=>{
-    console.log(msg)
-})
+    // Add a clicklistener for each NS
+    console.log(document.getElementsByClassName('namespace'))
+    Array.from(document.getElementsByClassName('namespace')).forEach((elem)=>{
+        // console.log(elem)
+        elem.addEventListener('click',(e)=>{
+            const nsEndpoint = elem.getAttribute('ns');
+            console.log(`${nsEndpoint} I should go to now`)
+        })
+    })
+    const nsSocket = io('http://localhost:9000/wiki')
+    nsSocket.on('nsRoomLoad',(nsRooms)=>{
+        // console.log(nsRooms)
+        let roomList = document.querySelector('.room-list');
+        roomList.innerHTML = "";
+        nsRooms.forEach((room)=>{
+            let glyph;
+            if(room.privateRoom){
+                glyph = 'lock'
+            }else{
+                glyph = 'globe'
+            }
+            roomList.innerHTML += `<li class="room"><span class="glyphicon glyphicon-${glyph}"></span>${room.roomTitle}</li>`
+        })
+        // add click listener to each room
+        let roomNodes = document.getElementsByClassName('room');
+        Array.from(roomNodes).forEach((elem)=>{
+            elem.addEventListener('click',(e)=>{
+                console.log("Somone clicked on ",e.target.innerText);
+            })
+        })
+    })
 
+})
 
 socket.on('messageFromServer',(dataFromServer)=>{
     console.log(dataFromServer);
@@ -33,12 +66,3 @@ socket.on('messageToClients',(msg)=>{
     document.querySelector('#messages').innerHTML += `<li>${msg.text}</li>`
 })
 
-// socket.on('ping',()=>{
-//     console.log('Ping was recieved from the server.');
-//     console.log(io.protocol)
-// })
-
-// socket.on('pong',(latency)=>{
-//     console.log(latency);
-//     console.log("Pong was sent to the server.")
-// })
