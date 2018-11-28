@@ -6,7 +6,7 @@ socket.on('connect',()=>{
 })
 
 socket2.on('connect',()=>{
-    console.log(socket.id)
+    console.log(socket2.id)
 })
 
 socket.on('welcome',(msg)=>{

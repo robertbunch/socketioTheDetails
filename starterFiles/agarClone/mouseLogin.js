@@ -1,28 +1,3 @@
-function init(){
-    draw()
-}
-
-// ================================
-// =============DRAWING============
-// ================================
-player.locX = Math.floor(500*Math.random() + 100)
-player.locY = Math.floor(500*Math.random() + 100)
-
-function draw(){
-    context.beginPath()
-    context.fillStyle = "rgb(255,230,230)"
-    // arg1,2 = x,y of the center of the arc
-    // arg3 = radius
-    // arg4 = where to start on the circle in radians, 0 = 3:00
-    // arg5 = where to stop in radians
-    context.arc(player.locX,player.locY,10,0,Math.PI*2)
-    context.fill()
-    context.lineWidth = 3;
-    context.strokeStyle = 'rgb(0,255,0)'
-    context.stroke()
-    requestAnimationFrame(draw)
-}
-
 function getMousePosition(event){
 	var rect = canvas.getBoundingClientRect();
 	return {
@@ -63,5 +38,3 @@ canvas.addEventListener('mousemove',(event)=>{
         player.locY -= speed * yV;
     }    
 })
-
-
