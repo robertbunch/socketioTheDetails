@@ -1,14 +1,9 @@
-function getMousePosition(event){
-	const rect = canvas.getBoundingClientRect();
-	return {
-		x: Math.round((event.clientX-rect.left)/(rect.right-rect.left)*canvas.width),
-		y: Math.round((event.clientY-rect.top)/(rect.bottom-rect.top)*canvas.height)
-	};
-}
-
 canvas.addEventListener('mousemove',(event)=>{
     console.log(event)
-    const mousePosition = getMousePosition(event);
+    const mousePosition = {
+        x: event.clientX,
+        y: event.clientY
+    };
     const angleDeg = Math.atan2(mousePosition.y - (canvas.height/2), mousePosition.x - (canvas.width/2)) * 180 / Math.PI;
     if(angleDeg >= 0 && angleDeg < 90){
         xVector = 1 - (angleDeg/90);
