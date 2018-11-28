@@ -8,8 +8,8 @@ function getMousePosition(event){
 
 canvas.addEventListener('mousemove',(event)=>{
     console.log(event)
-    var mousePosition = getMousePosition(event);
-    var angleDeg = Math.atan2(mousePosition.y - (canvas.height/2), mousePosition.x - (canvas.width/2)) * 180 / Math.PI;
+    const mousePosition = getMousePosition(event);
+    const angleDeg = Math.atan2(mousePosition.y - (canvas.height/2), mousePosition.x - (canvas.width/2)) * 180 / Math.PI;
     if(angleDeg >= 0 && angleDeg < 90){
         xVector = 1 - (angleDeg/90);
         yVector = -(angleDeg/90);
@@ -24,7 +24,6 @@ canvas.addEventListener('mousemove',(event)=>{
         yVector = (1 - ((angleDeg+90)/90));
     }
 
-    
     speed = 10
     xV = xVector;
     yV = yVector;
