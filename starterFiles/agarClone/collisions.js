@@ -4,7 +4,6 @@ const io = require('../servers').io;
 function checkForOrbCollisions(pData,pConfig, orbs, settings){
     //ORB COLLISIONS
     for(var j = 0; j < orbs.length; j++){
-        // console.log("CHECK FOR COLLISIONS")
     // AABB Test(square)  - Axis-aligned bounding boxes
         if(pData.locX + pData.radius + orbs[j].radius > orbs[j].locX 
             && pData.locX < orbs[j].locX + pData.radius + orbs[j].radius
@@ -19,7 +18,6 @@ function checkForOrbCollisions(pData,pConfig, orbs, settings){
         //COLLISION!!!
                 pData.score += 1;
                 pData.orbsAbsorbed += 1;
-                // pData.color = orbs[j].color;
                 if(pConfig.zoom > 1){
                     pConfig.zoom -= .001;
                 }
@@ -44,11 +42,10 @@ function checkForOrbCollisions(pData,pConfig, orbs, settings){
     }
 }
         
-function checkForPlayerCollisions(player, players, settings){
+function checkForPlayerCollisions(pData, pConfig, players, settings){
     //PLAYER COLLISIONS	
     for(var k = 0; k < players.length; k++){
         if(players[k].uid != pData.uid){
-            // console.log(players[k].uid,pData.uid)
             let pLocx = players[k].locX
             let pLocy = players[k].locY
             let pR = players[k].radius
@@ -65,21 +62,16 @@ function checkForPlayerCollisions(player, players, settings){
                 if(distance < pData.radius + pR){
             //COLLISION!!  
                     if(pData.radius > pR){
-                // ENEMY DEATH
+                // OTHER GUY DIED
                         let collisionData = updateScores(pData,players[k]);
                         if(pConfig.zoom > 1){
                             pConfig.zoom -= (pR * 0.25) * .001;
                         }
                         players.splice(k, 1);
                         return collisionData
-                        // io.sockets.emit("death", );
-                        // there was a collision, we are done
 
                     }else if(pData.radius < pR){
-                // Player DEATH
-                // console.log("========players========")
-                // console.log(players)
-                // console.log("=======================")                
+                // THIS PLAYER (one checking) DIED             
                         let collisionData = updateScores(players[k],pData);
                         players.forEach((p,i)=>{
                             console.log(players[i].name, i)
@@ -88,9 +80,7 @@ function checkForPlayerCollisions(player, players, settings){
                                 players.splice(i, 1);
                             }
                         }); 
-                        return collisionData                            
-                        // io.sockets.emit("death", {
-                        // there was a collision, we are done
+                        return collisionData
                     }
                 }
             }
@@ -102,7 +92,7 @@ function updateScores(killer, killed){
     killer.score += (killed.score + 10);
     killer.playersAbsorbed += 1;
     killed.alive = false;
-    // killer.radius += (killed.radius * 0.25)
+    killer.radius += (killed.radius * 0.25)
     return{
         died: killed,
         killedBy: killer,
