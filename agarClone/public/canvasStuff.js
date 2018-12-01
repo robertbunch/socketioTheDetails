@@ -11,7 +11,7 @@ function draw(){
     // clear the screen out so the old stuff is gone from the last frame
     context.clearRect(0,0,canvas.width,canvas.height)
 
-    console.log(player.locX, player.locY  )
+    // console.log(player.locX, player.locY  )
 
     // clamp the camera to the player
     const camX = -player.locX + canvas.width/2
