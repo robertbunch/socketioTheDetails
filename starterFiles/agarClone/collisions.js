@@ -1,32 +1,33 @@
+const Orb = require('./classes/Orb')
+const io = require('../servers').io;
 
-function checkForOrbCollisions(player, orbs, settings){
+function checkForOrbCollisions(pData,pConfig, orbs, settings){
     //ORB COLLISIONS
     for(var j = 0; j < orbs.length; j++){
         // console.log("CHECK FOR COLLISIONS")
-        // AABB Test(square)  - Axis-aligned bounding boxes
-        if(player.playerData.locX + player.playerData.radius + orbs[j].radius > orbs[j].locX 
-            && player.playerData.locX < orbs[j].locX + player.playerData.radius + orbs[j].radius
-            && player.playerData.locY + player.playerData.radius + orbs[j].radius > orbs[j].locY 
-            && player.playerData.locY < orbs[j].locY + player.playerData.radius + orbs[j].radius){
-            
-            // Passed AABB test, now run Pythagoras test(circle)
+    // AABB Test(square)  - Axis-aligned bounding boxes
+        if(pData.locX + pData.radius + orbs[j].radius > orbs[j].locX 
+            && pData.locX < orbs[j].locX + pData.radius + orbs[j].radius
+            && pData.locY + pData.radius + orbs[j].radius > orbs[j].locY 
+            && pData.locY < orbs[j].locY + pData.radius + orbs[j].radius){
+        // Pythagoras test(circle)
             distance = Math.sqrt(
-                ((player.playerData.locX - orbs[j].locX) * (player.playerData.locX - orbs[j].locX)) + 
-                ((player.playerData.locY - orbs[j].locY) * (player.playerData.locY - orbs[j].locY))	
-            );
-            if(distance < player.playerData.radius + orbs[j].radius){
-                //CIRCLE COLLISION!!!
-                player.playerData.score += 1;
-                player.playerData.orbsAbsorbed += 1;
-                // player.playerData.color = orbs[j].color;
-                if(player.playerConfig.zoom > 1){
-                    player.playerConfig.zoom -= .001;
+                ((pData.locX - orbs[j].locX) * (pData.locX - orbs[j].locX)) + 
+                ((pData.locY - orbs[j].locY) * (pData.locY - orbs[j].locY))	
+                );
+            if(distance < pData.radius + orbs[j].radius){
+        //COLLISION!!!
+                pData.score += 1;
+                pData.orbsAbsorbed += 1;
+                // pData.color = orbs[j].color;
+                if(pConfig.zoom > 1){
+                    pConfig.zoom -= .001;
                 }
-                player.playerData.radius += 0.25;
-                if(player.playerConfig.speed < -0.005){
-                    player.playerConfig.speed += 0.005;
-                }else if(player.playerConfig.speed > 0.005){
-                    player.playerConfig.speed -= 0.005;
+                pData.radius += 0.25;
+                if(pConfig.speed < -0.005){
+                    pConfig.speed += 0.005;
+                }else if(pConfig.speed > 0.005){
+                    pConfig.speed -= 0.005;
                 }
                 // we have to keep orbs updated for new players
                 // we just dont want to push them out more than we have to
@@ -45,53 +46,57 @@ function checkForOrbCollisions(player, orbs, settings){
         
 function checkForPlayerCollisions(player, players, settings){
     //PLAYER COLLISIONS	
-    players.forEach((otherPlayer)=>{
-        if(otherPlayer.uid != player.playerData.uid){
-            // console.log(otherPlayer.uid,player.playerData.uid)
-            let pLocx = otherPlayer.locX
-            let pLocy = otherPlayer.locY
-            let pR = otherPlayer.radius
-            // AABB Test - Axis-aligned bounding boxes
-            if(
-                player.playerData.locX + player.playerData.radius + pR > pLocx
-                && player.playerData.locX < pLocx + player.playerData.radius + pR
-                && player.playerData.locY + player.playerData.radius + pR > pLocy 
-                && player.playerData.locY < pLocy + player.playerData.radius + pR)
-            {
-            // Passed AABB, try Pythagoras test
+    for(var k = 0; k < players.length; k++){
+        if(players[k].uid != pData.uid){
+            // console.log(players[k].uid,pData.uid)
+            let pLocx = players[k].locX
+            let pLocy = players[k].locY
+            let pR = players[k].radius
+        // AABB Test - Axis-aligned bounding boxes
+            if(pData.locX + pData.radius + pR > pLocx
+            && pData.locX < pLocx + pData.radius + pR
+            && pData.locY + pData.radius + pR > pLocy 
+            && pData.locY < pLocy + pData.radius + pR){
+        // Pythagoras test
                 distance = Math.sqrt(
-                    ((player.playerData.locX - pLocx) * (player.playerData.locX - pLocx)) + 
-                    ((player.playerData.locY - pLocy) * (player.playerData.locY - pLocy))	
+                    ((pData.locX - pLocx) * (pData.locX - pLocx)) + 
+                    ((pData.locY - pLocy) * (pData.locY - pLocy))	
                     );      
-                if(distance < player.playerData.radius + pR){
-                //PLAYER COLLISION!!  
-                    if(player.playerData.radius > pR){
-                        // ENEMY DEATH
-                        let collisionData = updateScores(player.playerData,otherPlayer);
-                        if(player.playerConfig.zoom > 1){
-                            player.playerConfig.zoom -= (pR * 0.25) * .001;
+                if(distance < pData.radius + pR){
+            //COLLISION!!  
+                    if(pData.radius > pR){
+                // ENEMY DEATH
+                        let collisionData = updateScores(pData,players[k]);
+                        if(pConfig.zoom > 1){
+                            pConfig.zoom -= (pR * 0.25) * .001;
                         }
                         players.splice(k, 1);
                         return collisionData
-                    }else if(player.playerData.radius < pR){
-                    // Player DEATH
-                        let collisionData = updateScores(otherPlayer,player.playerData);
+                        // io.sockets.emit("death", );
+                        // there was a collision, we are done
+
+                    }else if(pData.radius < pR){
+                // Player DEATH
+                // console.log("========players========")
+                // console.log(players)
+                // console.log("=======================")                
+                        let collisionData = updateScores(players[k],pData);
                         players.forEach((p,i)=>{
                             console.log(players[i].name, i)
-                            if (player.playerData.uid == p.uid){
+                            if (pData.uid == p.uid){
                                 console.log("HIt!!",i)
                                 players.splice(i, 1);
                             }
                         }); 
-                        // There was a collision. We only handle one per tick. Stop looking.
-                        return collisionData
+                        return collisionData                            
+                        // io.sockets.emit("death", {
+                        // there was a collision, we are done
                     }
                 }
             }
         }
-    })
+    }
 }
-
 
 function updateScores(killer, killed){
     killer.score += (killed.score + 10);
