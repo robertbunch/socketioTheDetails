@@ -3,21 +3,23 @@ const io = require('../servers').io;
 
 function checkForOrbCollisions(pData,pConfig, orbs, settings){
     //ORB COLLISIONS
-    for(var j = 0; j < orbs.length; j++){
+    orbs.forEach((orb,i)=>{
+        // console.log("CHECK FOR COLLISIONS")
     // AABB Test(square)  - Axis-aligned bounding boxes
-        if(pData.locX + pData.radius + orbs[j].radius > orbs[j].locX 
-            && pData.locX < orbs[j].locX + pData.radius + orbs[j].radius
-            && pData.locY + pData.radius + orbs[j].radius > orbs[j].locY 
-            && pData.locY < orbs[j].locY + pData.radius + orbs[j].radius){
+        if(pData.locX + pData.radius + orb.radius > orb.locX 
+            && pData.locX < orb.locX + pData.radius + orb.radius
+            && pData.locY + pData.radius + orb.radius > orb.locY 
+            && pData.locY < orb.locY + pData.radius + orb.radius){
         // Pythagoras test(circle)
             distance = Math.sqrt(
-                ((pData.locX - orbs[j].locX) * (pData.locX - orbs[j].locX)) + 
-                ((pData.locY - orbs[j].locY) * (pData.locY - orbs[j].locY))	
+                ((pData.locX - orb.locX) * (pData.locX - orb.locX)) + 
+                ((pData.locY - orb.locY) * (pData.locY - orb.locY))	
                 );
-            if(distance < pData.radius + orbs[j].radius){
+            if(distance < pData.radius + orb.radius){
         //COLLISION!!!
                 pData.score += 1;
                 pData.orbsAbsorbed += 1;
+                // pData.color = orb.color;
                 if(pConfig.zoom > 1){
                     pConfig.zoom -= .001;
                 }
@@ -29,26 +31,27 @@ function checkForOrbCollisions(pData,pConfig, orbs, settings){
                 }
                 // we have to keep orbs updated for new players
                 // we just dont want to push them out more than we have to
-                orbs.splice(j, 1);
+                orbs.splice(i, 1);
                 let newOrb = new Orb(settings) 
                 orbs.push(newOrb)
                 // can't hit more than one orb on a tick so return
                 return{
-                    capturedOrbIndex: j,
+                    capturedOrbIndex: i,
                     newOrb
                 } 
             }
         }
-    }
+    })
 }
         
-function checkForPlayerCollisions(pData, pConfig, players, settings){
+function checkForPlayerCollisions(pData,pConfig, players){
     //PLAYER COLLISIONS	
-    for(var k = 0; k < players.length; k++){
-        if(players[k].uid != pData.uid){
-            let pLocx = players[k].locX
-            let pLocy = players[k].locY
-            let pR = players[k].radius
+    players.forEach((curPlayer,i)=>{
+        if(curPlayer.uid != pData.uid){
+            // console.log(curPlayer.uid,pData.uid)
+            let pLocx = curPlayer.locX
+            let pLocy = curPlayer.locY
+            let pR = curPlayer.radius
         // AABB Test - Axis-aligned bounding boxes
             if(pData.locX + pData.radius + pR > pLocx
             && pData.locX < pLocx + pData.radius + pR
@@ -62,21 +65,19 @@ function checkForPlayerCollisions(pData, pConfig, players, settings){
                 if(distance < pData.radius + pR){
             //COLLISION!!  
                     if(pData.radius > pR){
-                // OTHER GUY DIED
-                        let collisionData = updateScores(pData,players[k]);
+                // ENEMY DEATH
+                        let collisionData = updateScores(pData,curPlayer);
                         if(pConfig.zoom > 1){
                             pConfig.zoom -= (pR * 0.25) * .001;
                         }
-                        players.splice(k, 1);
+                        players.splice(i, 1);
                         return collisionData
 
-                    }else if(pData.radius < pR){
-                // THIS PLAYER (one checking) DIED             
-                        let collisionData = updateScores(players[k],pData);
+                    }else if(pData.radius < pR){           
+                        let collisionData = updateScores(curPlayer,pData);
                         players.forEach((p,i)=>{
                             console.log(players[i].name, i)
                             if (pData.uid == p.uid){
-                                console.log("HIt!!",i)
                                 players.splice(i, 1);
                             }
                         }); 
@@ -85,7 +86,7 @@ function checkForPlayerCollisions(pData, pConfig, players, settings){
                 }
             }
         }
-    }
+    })
 }
 
 function updateScores(killer, killed){
