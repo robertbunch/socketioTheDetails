@@ -32,9 +32,9 @@ function checkForOrbCollisions(pData,pConfig, orbs, settings){
                     }
                     // we have to keep orbs updated for new players
                     // we just dont want to push them out more than we have to
-                    const newOrb = orbs.splice(i, 1, new Orb(settings))
+                    orbs.splice(i, 1, new Orb(settings))
                     // can't hit more than one orb on a tick so return
-                    resolve(newOrb)
+                    resolve(i)
                 }
             }
         });
