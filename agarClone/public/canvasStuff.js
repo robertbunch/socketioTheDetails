@@ -27,7 +27,7 @@ function draw(){
         // arg3 = radius
         // arg4 = where to start on the circle in radians, 0 = 3:00
         // arg5 = where to stop in radians
-        context.arc(p.locX,p.locY,10,0,Math.PI*2)
+        context.arc(p.locX,p.locY,p.radius,0,Math.PI*2)
         // context.arc(200,200,10,0,Math.PI*2)
         context.fill()
         context.lineWidth = 3;
@@ -54,19 +54,19 @@ canvas.addEventListener('mousemove',(event)=>{
     };
     const angleDeg = Math.atan2(mousePosition.y - (canvas.height/2), mousePosition.x - (canvas.width/2)) * 180 / Math.PI;
     if(angleDeg >= 0 && angleDeg < 90){
-        console.log("Mouse is in the lower right quad")
+        // console.log("Mouse is in the lower right quad")
         xVector = 1 - (angleDeg/90);
         yVector = -(angleDeg/90);
     }else if(angleDeg >= 90 && angleDeg <= 180){
-        console.log("Mouse is in the lower left quad")
+        // console.log("Mouse is in the lower left quad")
         xVector = -(angleDeg-90)/90;
         yVector = -(1 - ((angleDeg-90)/90));
     }else if(angleDeg >= -180 && angleDeg < -90){
-        console.log("Mouse is in the upper left quad")
+        // console.log("Mouse is in the upper left quad")
         xVector = (angleDeg+90)/90;
         yVector = (1 + ((angleDeg+90)/90));
     }else if(angleDeg < 0 && angleDeg >= -90){
-        console.log("Mouse is in the upper right quad")
+        // console.log("Mouse is in the upper right quad")
         xVector = (angleDeg+90)/90;
         yVector = (1 - ((angleDeg+90)/90));
     }
