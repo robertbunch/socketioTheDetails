@@ -99,9 +99,33 @@ io.sockets.on('connect',(socket)=>{
             // console.log("Player collision!!!")
             // every socket needs to know the leaderBoard has changed
             io.sockets.emit('updateLeaderBoard',getLeaderBoard());
+            // a player was absorbed. Let everyone know!
+            io.sockets.emit('playerDeath',data);
         }).catch(()=>{
             // console.log("No player collision")
         })
+    });
+    socket.on('disconnect',(data)=>{
+        // console.log(data)
+        // find out who just left... which player in players
+        // make sure the player exists
+        if(player.playerData){
+            players.forEach((currPlayer,i)=>{
+                // if they match...
+                if(currPlayer.uid == player.playerData.uid){
+                    // these are the droids we're looking for
+                    players.splice(i,1);
+                    io.sockets.emit('updateLeaderBoard',getLeaderBoard());
+                }
+            });
+            const updateStats = `
+            UPDATE stats
+                SET highScore = CASE WHEN highScore < ? THEN ? ELSE highScore END,
+                mostOrbs = CASE WHEN mostOrbs < ? THEN ? ELSE mostOrbs END,
+                mostPlayers = CASE WHEN mostPlayers < ? THEN ? ELSE mostPlayers END
+            WHERE username = ?
+            `
+        }
     })
 })
 
