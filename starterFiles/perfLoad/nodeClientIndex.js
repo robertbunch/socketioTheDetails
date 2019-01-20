@@ -7,7 +7,7 @@
 const os = require('os');
 
 function performanceData(){
-    return new Promise((resolve,reject)=>{
+    return new Promise(async (resolve, reject)=>{
         const cpus = os.cpus();
         // What do we need to know from node about performance?
         // - CPU load (current)
@@ -29,10 +29,9 @@ function performanceData(){
         const numCores = cpus.length;
         //  - Clock Speed
         const cpuSpeed = cpus[0].speed
-        getCpuLoad().then((cpuLoadData)=>{
-            resolve({freeMem,totalMem,usedMem,memUseage,osType,upTime,cpuModel,numCores,cpuSpeed,cpuLoadData})
-        });
-    });
+        const cpuLoad = await getCpuLoad();
+        resolve({freeMem,totalMem,usedMem,memUseage,osType,upTime,cpuModel,numCores,cpuSpeed,cpuLoad})
+    })
 }
 
 // cpus is all cores. we need the average of all the cores which
@@ -75,6 +74,6 @@ function getCpuLoad(){
     })
 }
 
-performanceData().then((data)=>{
-    console.log(data)
+performanceData().then((allPerformanceData)=>{
+    console.log(allPerformanceData)
 })
