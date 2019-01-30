@@ -1,18 +1,18 @@
 import React from 'react';
 
-function CpuInfo(props){
+function Info(props){
     return (
         <div className="col-sm-3 col-sm-offset-1 cpu-info">
           <h3>Operating System</h3>
-          <div className="widget-text">{props.cpuInfo.osType}</div>
+          <div className="widget-text">{props.infoData.osType}</div>
           <h3>Time Online</h3>
-          <div className="widget-text">{props.cpuInfo.upTime}</div>
+          <div className="widget-text">{props.infoData.upTime}</div>
           <h3>Processor information</h3>
-          <div className="widget-text"><strong>Type:</strong> {props.cpuInfo.cpuModel}</div>
-          <div className="widget-text"><strong>Number of Cores:</strong> {props.cpuInfo.cpuNumCores}</div>
-          <div className="widget-text"><strong>Clock Speed:</strong> {props.cpuInfo.cpuSpeed}</div>
+          <div className="widget-text"><strong>Type:</strong> {props.infoData.cpuModel}</div>
+          <div className="widget-text"><strong>Number of Cores:</strong> {props.infoData.cpuNumCores}</div>
+          <div className="widget-text"><strong>Clock Speed:</strong> {props.infoData.cpuSpeed}</div>
         </div>
     );
 }
 
-export default(CpuInfo);
+export default(Info);
