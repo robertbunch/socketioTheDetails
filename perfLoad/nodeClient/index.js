@@ -17,7 +17,11 @@ socket.on('connect',()=>{
     // loop through all the nI for this machine and find a non-internal one
     for(let key in nI){
         if(!nI[key][0].internal){
-            macA = nI[key][0].mac;
+            if(nI[key][0].mac === '00:00:00:00:00:00'){
+                macA = Math.random().toString(36).substr(2,15);
+            }else{
+                macA = nI[key][0].mac;
+            }
             break;
         }
     }
@@ -34,6 +38,7 @@ socket.on('connect',()=>{
     let perfDataInterval = setInterval(()=>{
         performanceData().then((allPerformanceData)=>{
             // console.log(allPerformanceData)
+            allPerformanceData.macA = macA;
             socket.emit('perfData',allPerformanceData);
         })
     },1000);
