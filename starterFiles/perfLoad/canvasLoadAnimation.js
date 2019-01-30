@@ -1,8 +1,6 @@
 function drawCircle(canvas,currentLoad){
     if(canvas){
         let context = canvas.getContext('2d');
-        // console.log(canvas.height)
-        // console.log(currentLoad)
         // Draw Inner Circle
         context.clearRect(0,0,500,500)
         context.fillStyle = "#ccc";
@@ -12,7 +10,7 @@ function drawCircle(canvas,currentLoad){
         context.fill();
 
         // Draw the outter line
-        // 5px wide line
+        // 10px wide line
         context.lineWidth = 10;
         if(currentLoad < 20){
             context.strokeStyle = '#00ff00';
