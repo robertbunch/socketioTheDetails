@@ -14,10 +14,27 @@ function socketMain(io, socket){
             // valid ui client has joined
             socket.join('ui');
             console.log("A react client has joined!");
+            Machine.find({}, (err,docs)=>{
+                docs.forEach((aMachine)=>{
+                    // on load, assume that all machines are offline
+                    aMachine.isActive = false;
+                    io.to('ui').emit('data',aMachine);
+                })
+            })
         }else{
             // an invalid client has joined. Goodbye
             socket.disconnect(true);
         }
+    })
+
+    socket.on('disconnect',()=>{
+        Machine.find({macA: macA},(err, docs)=>{
+            if(docs.length > 0){
+                // send one last emit to React
+                docs[0].isActive = false;
+                io.to('ui').emit('data',docs[0]);
+            }
+        })
     })
 
     // a machine has connected, check to see if it's new.
