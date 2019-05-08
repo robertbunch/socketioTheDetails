@@ -19,16 +19,23 @@ canvas.addEventListener('mousemove',(event)=>{
         yVector = (1 - ((angleDeg+90)/90));
     }
 
-    speed = 10
-    xV = xVector;
-    yV = yVector;
+    speed = 10;
+    
+    
+    let xV = xVector;
+    let yV = yVector;
+    
+    let moveX = true;
+    let moveY = true;
 
-    if((player.locX < 5 && player.xVector < 0) || (player.locX > 500) && (xV > 0)){
-        player.locY -= speed * yV;
-    }else if((player.locY < 5 && yV > 0) || (player.locY > 500) && (yV < 0)){
-        player.locX += speed * xV;
-    }else{
-        player.locX += speed * xV;
-        player.locY -= speed * yV;
-    }    
+    if((player.locX < 5 && xV < 0) || (player.locX > 500) && (xV > 0)){
+        moveX = false
+    } 
+    if((player.locY < 5 && yV > 0) || (player.locY > 500) && (yV < 0)){
+        moveY = false;
+    }
+    
+    if (moveX) player.locX += speed * xV;
+    if (moveY) player.locY -= speed * yV;
+        
 })
