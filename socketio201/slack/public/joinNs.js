@@ -17,7 +17,7 @@ function joinNs(endpoint){
             }else{
                 glyph = 'globe'
             }
-            roomList.innerHTML += `<li class="room"><span class="glyphicon glyphicon-${glyph}"></span>${room.roomTitle}</li>`
+            roomList.innerHTML += `<li class="room"><span class="glyphicon glyphicon-${glyph}"></span>${room.nsTitle}</li>`
         })
         // add click listener to each room
         let roomNodes = document.getElementsByClassName('room');
