@@ -72,7 +72,7 @@ namespaces.forEach((namespace)=>{
             const roomTitle = Object.keys(nsSocket.rooms)[1];
             // we need to find the Room object for this room
             const nsRoom = namespace.rooms.find((room)=>{
-                return room.roomTitle === roomTitle;
+                return room.nsTitle === roomTitle;
             })
             // console.log("The room object that we made that matches this NS room is...")
             // console.log(nsRoom)
