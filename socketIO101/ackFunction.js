@@ -1,9 +1,6 @@
-// We need http because we dont have express
 const http = require('http');
-// We need socketio...it's 3rd party!
 const socketio = require('socket.io');
 
-// We make an http server with node! 
 const server = http.createServer((req, res)=>{
     res.end("I am connected!")
 });
