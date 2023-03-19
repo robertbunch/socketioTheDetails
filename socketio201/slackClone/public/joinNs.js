@@ -1,4 +1,5 @@
-
+// We could ask the server for fresh info on this NS. BAD!!
+// We have socket.io/ws, and the server will tell us when something has happened!
 
 const joinNs = (element,nsData)=>{
     const nsEndpoint = element.getAttribute('ns');

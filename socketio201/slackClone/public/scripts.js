@@ -27,7 +27,12 @@ socket.on('nsList',(nsData)=>{
         //update the HTML with each ns
         nameSapcesDiv.innerHTML +=  `<div class="namespace" ns="${ns.endpoint}"><img src="${ns.image}"></div>`
         //join this namespace with io()
-        io(`http://localhost:9000${ns.endpoint}`);        
+        const thisNs = io(`http://localhost:9000${ns.endpoint}`);
+        thisNs.on('nsChange',(data)=>{
+            console.log("Namespace Changed!");
+            console.log(data);
+        })
+        
     })
 
     Array.from(document.getElementsByClassName('namespace')).forEach(element=>{
