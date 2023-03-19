@@ -1,0 +1,93 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="./styles.css">
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="namespaces">
+            <div class="namespace" ns="/wiki"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Wikipedia-logo-v2.svg/103px-Wikipedia-logo-v2.svg.png"></div>
+            <div class="namespace" ns="/mozilla"><img src="https://www.mozilla.org/media/img/logos/firefox/logo-quantum.9c5e96634f92.png"></div>
+            <div class="namespace" ns="/linux"><img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png"></div>
+        </div>
+        <div class="rooms">
+            <div class="main-rooms">
+                <h6 class="pointer">
+                    <i class="room-caret fa-solid fa-caret-down"></i>Rooms
+                </h6>
+                <ul class="room-list">
+                    <li><span class="glyphicon glyphicon-lock"></span>Main Room</li>
+                    <li><span class="glyphicon glyphicon-globe"></span>Meeting Room</li>
+                </ul>
+            </div>
+            <div class="dm">
+                <h6" class="pointer">
+                    <i class="room-caret fa-solid fa-caret-down"></i>Direct Messages
+                </h6>
+                <ul class="room-list">
+                    <li><span class="glyphicon glyphicon-lock"></span>Main Room</li>
+                    <li><span class="glyphicon glyphicon-globe"></span>Meeting Room</li>
+                </ul>
+            </div>                
+        </div>
+        <div class="chat-panel col">
+            <div class="room-header row col-12">
+                <div class="col"><span class="curr-room-text">Current Room</span> <span class="curr-room-num-users">Users <span class="glyphicon glyphicon-user"></span></span></div>
+                <div class="search">
+                        <span class="glyphicon glyphicon-search"></span>
+                    <input type="text" id="search-box" placeholder="Search" />
+                </div>
+            </div> 
+            <div class="message-form">
+                <form id="message-form" id="user-input">
+                    <div class="col-sm-12">
+                        <input id="user-message" type="text" placeholder="Enter your message" />
+                    </div>
+                </form>
+            </div>
+            <ul id="messages" class="col-sm-12">
+                <li>
+                    <div class="user-image">
+                        <img src="https://via.placeholder.com/30" />
+                    </div>
+                    <div class="user-message">
+                        <div class="user-name-time">rbunch <span>1:25 pm</span></div>
+                        <div class="message-text">I went running today.</div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="user-image">
+                        <img src="https://via.placeholder.com/30" />
+                    </div>
+                    <div class="user-message">
+                        <div class="user-name-time">rbunch <span>2:25 pm</span></div>
+                        <div class="message-text">I'm getting my tires changed this afternoon.</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="user-image">
+                        <img src="https://via.placeholder.com/30" />
+                    </div>
+                    <div class="user-message">
+                        <div class="user-name-time">rbunch <span>2:29 pm</span></div>
+                        <div class="message-text">I like history.</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="user-image">
+                        <img src="https://via.placeholder.com/30" />
+                    </div>
+                    <div class="user-message">
+                        <div class="user-name-time">rbunch <span>2:59 pm</span></div>
+                        <div class="message-text">What day is tomorrow?</div>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/scripts.js"></script>
+

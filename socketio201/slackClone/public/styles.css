@@ -1,0 +1,145 @@
+body{
+    background-color: #3B4048;
+    color: white;
+}
+
+.namespaces{
+    background-color: #282c34;
+    min-height: 100vh;
+    color: #ABB2BF;
+    text-align: center;
+    width: 70px;
+}
+
+.namespaces img{
+    margin-top: 10px;
+    background-color: #ABB2BF;
+    border-radius: 10px;
+    cursor: pointer;
+    width:45px;
+}
+
+.room-list{
+    padding-left: 0px;
+    transition: all 2s;
+}
+
+.room-list li{
+    cursor: pointer;
+    list-style-type: none;
+}
+
+.room-list.closed li{
+    display: none;
+}
+
+.room-list li span{
+    margin-right: 5px;
+}
+
+.room-list li.active{
+    background-color: #61AFEF;
+    color: #fff
+}
+
+.rooms{
+    background: #3B4048;
+    min-height: 100vh;
+    color: #fff;
+    width: 220px;
+}
+
+.rooms i{
+    margin-right: 10px;
+}
+
+.rooms h6{
+    margin-top: 10px;
+}
+
+.chat-panel{
+    background-color: #fff;
+    min-height: 100vh;
+    position: relative;
+    padding-top: 10px;
+    background-color: #37393E;
+}
+.chat-panel .curr-room-text{
+    color: #fff;
+    font-size: 26px;
+}
+.curr-room-num-users, .search{
+    font-size: 14px;
+    color: #ABB2BF;
+    justify-items: flex-end;
+    width: 250px;
+}
+
+.search{
+    margin-top: 5px;
+}
+
+.search span{
+    position: absolute;
+    left: 25px;
+    top: 10px;
+}
+
+.search input{
+    padding-left: 20px;
+}
+
+.message-form { 
+    margin: 0px; margin-bottom: 10px;
+    position: absolute;
+    bottom: 0;
+    width: 98%
+}
+input { 
+    width: 100%; 
+    height: 34px; 
+    color: #ABB2BF; 
+    border: 1px solid #3B4048; 
+    border-radius: 5px;
+    padding-left: 5px;
+}
+#messages { 
+    list-style-type: none; margin: 0; padding: 0; 
+    color: #3B4048;
+    max-height: 85%;
+    overflow: scroll;
+}
+#messages li .user-image{
+    /* width: 50px; */
+    /* display: inline-block; */
+}
+#messages li .user-message{
+    margin-left: 10px;
+    color: #fff;
+}
+
+#messages li .user-message .message-text{
+    color: #C8C8C8;
+}
+
+#messages li .user-name-time span{
+    color: #ABB2BF;
+}
+
+#messages li { 
+    padding: 5px 10px; 
+    display: flex;
+    align-items: stretch;
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+

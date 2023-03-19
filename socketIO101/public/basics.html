@@ -1,0 +1,18 @@
+
+<!-- socket.io.js is added by the socketio server -->
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+    //socket.io.js is going to add the io object the global scope
+    // console.log(io);
+    const socket = io('http://localhost:8000');
+    // console.log(socket);
+    socket.on('connect',()=>{
+        console.log(socket.id)
+        socket.on('messageFromServer',(data)=>{
+            console.log(data);
+        })
+        socket.emit('messageFromClient',{data:"Hello, from the browser!"}) 
+    })
+
+</script>
