@@ -10,6 +10,9 @@ app.use(express.static(__dirname + '/public'));
 const expressServer = app.listen(9000);
 const io = socketio(expressServer)
 
+app.set('io',io);
+
+
 //manufactured way to change an ns (without building a huge UI)
 app.get('/change-ns',(req, res)=>{
     //update namespaces array
