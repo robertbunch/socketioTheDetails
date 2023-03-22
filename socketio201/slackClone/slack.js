@@ -37,13 +37,16 @@ namespaces.forEach(namespace=>{
         socket.on('joinRoom',async(roomTitle,ackCallBack)=>{
             //need to fetch the history
             
-            //leave all rooms, (except own room) because the client can only be in one room
+            //leave all rooms, because the client can only be in one room
             const rooms = socket.rooms;
             // console.log(rooms);
-            rooms.forEach((room,i)=>{
+            let i = 0;
+            rooms.forEach(room=>{
+                //we don't want to leave the socket's personal room which is guaranteed to be first
                 if(i!==0){
                     socket.leave(room);
                 }
+                i++;
             })
 
             //join the room! 
