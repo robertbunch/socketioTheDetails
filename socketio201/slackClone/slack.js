@@ -34,13 +34,31 @@ namespaces.forEach(namespace=>{
     // const thisNs = io.of(namespace.endpoint)
     io.of(namespace.endpoint).on('connection',(socket)=>{
         // console.log(`${socket.id} has connected to ${namespace.endpoint}`)
-        socket.on('joinRoom',(roomTitle)=>{
+        socket.on('joinRoom',async(roomTitle,ackCallBack)=>{
             //need to fetch the history
             
+            //leave all rooms, (except own room) because the client can only be in one room
+            const rooms = socket.rooms;
+            // console.log(rooms);
+            rooms.forEach((room,i)=>{
+                if(i!==0){
+                    socket.leave(room);
+                }
+            })
+
             //join the room! 
             // NOTE - roomTitle is coming from the client. Which is NOT safe.
             // Auth to make sure the socket has right to be in that room
             socket.join(roomTitle);
+
+            //fetch the number of sockets in this room
+            const sockets = await io.of(namespace.endpoint).in(roomTitle).fetchSockets()
+            // console.log(sockets);
+            const socketCount = sockets.length;
+
+            ackCallBack({
+                numUsers: socketCount,
+            })
         })
     })
 })
