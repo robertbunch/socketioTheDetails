@@ -1,13 +1,9 @@
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 <style>
-    .container{
-        margin-top: 30px;
-    }
     input{
-        height: 35px;
         width: 100%;
+        height: 35px;
     }
     #messages{
         list-style-type: none;
@@ -22,45 +18,55 @@
     }
 </style>
 
-<div class="container text-center">
-    <form class="row" id="message-form">
-        <div class="col-6">
-            <input id="user-message" type="text" placeholder="Enter your message" />
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <form id="message-form">
+                <div class="col-sm-10">
+                    <input id="user-message" type="text" placeholder="Enter your message" />
+                </div>
+                <div class="col-sm-2">
+                    <input class="btn btn-primary" type="submit" value="Send!" />
+                </div>
+            </form>
+            <ul id="messages">
+                <!-- THIS WILL BE POPULATED BY JAVASCRIPT! -->
+            </ul>
         </div>
-        <div class="col-2">
-            <input class="btn btn-primary" type="submit" value="Send!" />
-        </div>
-    </form>
-
-    <ul id="messages">
-        <!-- THIS WILL BE POPULATED BY JAVASCRIPT! -->
-    </ul>
-
+    </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
-
 <script>
-
-    const socket = io('http://localhost:8001');
+    const socket = io('http://localhost:9000');
+    console.log(socket.io)
     socket.on('connect',()=>{
-        //do connect type stuff
+        console.log(socket.id)
+    })
+    socket.on('messageFromServer',(dataFromServer)=>{
+        console.log(dataFromServer);
+        socket.emit('dataToServer',{data: "Data from the Client!"})
     })
 
-    socket.on('messageFromServer',(dataFromServer)=>{
-        console.log(dataFromServer)
-    })
-    
-    socket.on('newMessageToClients',(newMessage)=>{
-        document.querySelector('#messages').innerHTML += `<li>${newMessage.text}</li>`
-    })
-    
     document.querySelector('#message-form').addEventListener('submit',(event)=>{
         event.preventDefault();
-        const newMessage = document.querySelector('#user-message').value
-        // console.log(newMessage);
-        socket.emit('newMessageToServer',{text:newMessage})
+        const newMessage = document.querySelector('#user-message').value;
+        socket.emit('newMessageToServer',{text: newMessage})
     })
 
+    socket.on('messageToClients',(msg)=>{
+        console.log(msg)
+        document.querySelector('#messages').innerHTML += `<li>${msg.text}</li>`
+    })
+
+    // socket.on('ping',()=>{
+    //     console.log('Ping was recieved from the server.');
+    //     console.log(io.protocol)
+    // })
+
+    // socket.on('pong',(latency)=>{
+    //     console.log(latency);
+    //     console.log("Pong was sent to the server.")
+    // })
 
 </script>
