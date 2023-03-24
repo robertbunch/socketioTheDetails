@@ -6,8 +6,17 @@
 const userName = "Rob";
 const password = "x";
 
+const clientOptions = {
+    query:{
+        userName,password
+    },
+    auth:{
+        userName,password
+    }
+}
+
 //always join the main namespace, because that's where the client gets the other namespaces from
-const socket = io('http://localhost:9000');
+const socket = io('http://localhost:9000',clientOptions);
 // const socket2 = io('http://localhost:9000/wiki');
 // const socket3 = io('http://localhost:9000/mozilla');
 // const socket4 = io('http://localhost:9000/linux');

@@ -22,7 +22,25 @@ app.get('/change-ns',(req, res)=>{
     res.json(namespaces[0]);
 })
 
+io.use((socket,next)=>{
+    const jwt = socket.handshake.query.jwt;
+    console.log(jwt);
+    if(1){
+        next()
+    }else{
+        console.log("Goodbye")
+        socket.disconnect()
+    }
+})
+
 io.on('connection',(socket)=>{
+
+    // console.log('==================')
+    // console.log(socket.handshake);
+
+    const userName = socket.handshake.query.userName;
+    const jwt = socket.handshake.query.jwt;
+
     socket.emit('welcome',"Welcome to the server.");
     socket.on('clientConnect',(data)=>{
         console.log(socket.id,"has connected")
