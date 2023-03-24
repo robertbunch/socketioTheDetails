@@ -16,8 +16,31 @@ const socket = io('http://localhost:9000');
 const nameSpaceSockets = [];
 const listeners = {
     nsChange: [],
+    messageToRoom: [],
 }
 
+//a global variable we can update when the user clicks on a namespace
+//we will use it to broadcast across the app (redux would be great here...)
+let selectedNsId = 0;
+
+//add a submit handler for our form
+document.querySelector('#message-form').addEventListener('submit',e=>{
+    //keep the browser from submitting
+    e.preventDefault();
+    //grab the value from the input box
+    const newMessage = document.querySelector('#user-message').value;
+    console.log(newMessage,selectedNsId);
+    nameSpaceSockets[selectedNsId].emit('newMessageToRoom',{
+        newMessage,
+        date: Date.now(),
+        avatar: 'https://via.placeholder.com/30',
+        userName,
+    })
+})
+
+//addListeners job is to manage all listeners added to all namespaces.
+//this prevents listeneres being added multiples times and makes life
+//better for us as developers.
 const addListeners = (nsId)=>{
     // nameSpaceSockets[ns.id] = thisNs;
     if(!listeners.nsChange[nsId]){
@@ -26,8 +49,13 @@ const addListeners = (nsId)=>{
             console.log(data);
         })
         listeners.nsChange[nsId] = true;
-    }else{
-        //nothing to do the listener has been added
+    }
+    if(!listeners.messageToRoom[nsId]){
+        //add the nsId listener to this namespace!
+        nameSpaceSockets[nsId].on('messageToRoom',messageObj=>{
+            console.log(messageObj);
+        })
+        listeners.messageToRoom[nsId] = true;
     }
 }
 

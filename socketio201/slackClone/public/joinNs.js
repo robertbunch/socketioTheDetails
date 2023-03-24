@@ -6,6 +6,8 @@ const joinNs = (element,nsData)=>{
     console.log(nsEndpoint);
 
     const clickedNs = nsData.find(row=>row.endpoint === nsEndpoint);
+    //global so we can submit the new message to the right place
+    selectedNsId = clickedNs.id;
     const rooms = clickedNs.rooms;
 
     //get the room-list div

@@ -63,6 +63,17 @@ namespaces.forEach(namespace=>{
                 numUsers: socketCount,
             })
         })
+
+        socket.on('newMessageToRoom',messageObj=>{
+            console.log(messageObj);
+            //broadcast this to all the connected clients... this room only!
+            //how can we find out what room THIS socket is in?
+            const rooms = socket.rooms;
+            const currentRoom = [...rooms][1]; //this is a set!! Not array
+            //send out this messageObj to everyone including the sender
+            io.of(namespace.endpoint).in(currentRoom).emit('messageToRoom',messageObj)
+        })
+
     })
 })
 
