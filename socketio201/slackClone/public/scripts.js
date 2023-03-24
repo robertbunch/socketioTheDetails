@@ -35,7 +35,9 @@ document.querySelector('#message-form').addEventListener('submit',e=>{
         date: Date.now(),
         avatar: 'https://via.placeholder.com/30',
         userName,
+        selectedNsId,
     })
+    document.querySelector('#user-message').value = "";
 })
 
 //addListeners job is to manage all listeners added to all namespaces.
@@ -54,6 +56,7 @@ const addListeners = (nsId)=>{
         //add the nsId listener to this namespace!
         nameSpaceSockets[nsId].on('messageToRoom',messageObj=>{
             console.log(messageObj);
+            document.querySelector('#messages').innerHTML += buildMessageHtml(messageObj);
         })
         listeners.messageToRoom[nsId] = true;
     }
@@ -100,3 +103,6 @@ socket.on('nsList',(nsData)=>{
     joinNs(document.getElementsByClassName('namespace')[0],nsData)
 
 })
+
+
+

@@ -34,9 +34,12 @@ namespaces.forEach(namespace=>{
     // const thisNs = io.of(namespace.endpoint)
     io.of(namespace.endpoint).on('connection',(socket)=>{
         // console.log(`${socket.id} has connected to ${namespace.endpoint}`)
-        socket.on('joinRoom',async(roomTitle,ackCallBack)=>{
+        socket.on('joinRoom',async(roomObj,ackCallBack)=>{
             //need to fetch the history
-            
+            const thisNs = namespaces[roomObj.namespaceId];
+            const thisRoomObj = thisNs.rooms.find(room=>room.roomTitle === roomObj.roomTitle)
+            const thisRoomsHistory = thisRoomObj.history;
+
             //leave all rooms, because the client can only be in one room
             const rooms = socket.rooms;
             // console.log(rooms);
@@ -52,15 +55,16 @@ namespaces.forEach(namespace=>{
             //join the room! 
             // NOTE - roomTitle is coming from the client. Which is NOT safe.
             // Auth to make sure the socket has right to be in that room
-            socket.join(roomTitle);
+            socket.join(roomObj.roomTitle);
 
             //fetch the number of sockets in this room
-            const sockets = await io.of(namespace.endpoint).in(roomTitle).fetchSockets()
+            const sockets = await io.of(namespace.endpoint).in(roomObj.roomTitle).fetchSockets()
             // console.log(sockets);
             const socketCount = sockets.length;
 
             ackCallBack({
                 numUsers: socketCount,
+                thisRoomsHistory,
             })
         })
 
@@ -72,6 +76,11 @@ namespaces.forEach(namespace=>{
             const currentRoom = [...rooms][1]; //this is a set!! Not array
             //send out this messageObj to everyone including the sender
             io.of(namespace.endpoint).in(currentRoom).emit('messageToRoom',messageObj)
+            //add this message to this room's history
+            const thisNs = namespaces[messageObj.selectedNsId];
+            const thisRoom = thisNs.rooms.find(room=>room.roomTitle === currentRoom);
+            console.log(thisRoom)
+            thisRoom.addMessage(messageObj);
         })
 
     })
