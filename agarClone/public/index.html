@@ -1,1 +1,116 @@
-<h1>Sanity Check!</h1>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Agar Clone!</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="./styles.css">
+</head>
+<body>
+
+	<div id="container">
+		<div id="game-field" class="col-sm-12">
+			<canvas id="the-canvas" style="background: url('images/starfield.jpg')">
+				<!-- our drawing will go here -->
+			</canvas>
+			<div id="score-wrapper" class="hiddenOnStart" hidden>
+				<div>Score: <span class="player-score"></span></div>
+			</div>
+			<div id="leader-board-wrapper" class="hiddenOnStart" hidden>
+				<div id="leader-board">
+					<h3 class="text-center">Leaders</h3>
+					<hr>
+					<ol class="leader-board">
+						<li class="leaderboard-player"></li>
+					</ol>
+					<hr>
+				</div>
+				<div id="sort-wrapper">
+					<div id="sort-header" class="text-center">SORT BY</div>
+					<div id="sort-score" class="sort-option active">Score</div>
+					<div id="sort-orbs" class="sort-option">Orbs</div>
+					<div id="sort-players" class="sort-option">Players</div>
+				</div>
+			</div>
+			<div id="game-message-wrapper">
+				<div id="game-message">{{gameMessage}}</div>
+			</div>
+		</div>
+		
+	</div>
+
+	<!-- Modals -->
+<!-- LOGIN MODAL -->
+	<div id="loginModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+
+		<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h2 class="modal-title text-center">Agar Clone</h2>
+				</div>
+				<div class="modal-body">
+						<button type="submit" class="btn play-button btn-github">Login with github</button>
+					<form class="name-form">
+						<div class="text-center error-message"></div>
+						<button type="submit" class="btn play-button play-guest">Play as Guest</button>
+						<input id="name-input" class="text-input text-center form-control" type="text" name="name-input" placeholder="Enter your name here" required>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<div id="instructions">
+						<label id="how-to-play">How to play:</label>
+						<ul>
+							<li>Move your mouse on the screen to move your character.</li>
+							<li>Absorb orbs by running over them in order to grow your character.</li>
+							<li>The larger you get the slower you are.</li>
+							<li>Objective: Absorb other players to get even larger but not lose speed.</li>
+							<li>The larger player absorbs the smaller player.</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!-- START MODAL -->
+	<div id="spawnModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+
+		<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h2 class="modal-title text-center">Agar Clone</h2>
+				</div>
+				<div class="modal-body">
+					<h3 class="text-center">Hello, <span class="player-name"></span>!</h3>
+					<div class="play-btn-wrapper">
+						<button id="join-team-btn" type="button" class="btn play-button">Join a Team!</button>
+						<button id="play-solo-btn" type="button" class="btn play-button start-game">Play Solo!</button>
+					</div>
+					<div class="stats-btn-wrapper">
+						<button type="button" class="btn stats-btn player-stats-btn">See your stats</button>
+						<button type="button" class="btn stats-btn all-stats-btn">See all stats</button>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div id="instructions">
+						<label id="how-to-play">How to play:</label>
+						<ul>
+							<li>Move your mouse on the screen to move your character.</li>
+							<li>Absorb orbs by running over them in order to grow your character.</li>
+							<li>The larger you get the slower you are.</li>
+							<li>Objective: Absorb other players to get even larger but not lose speed.</li>
+							<li>The larger player absorbs the smaller player.</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
