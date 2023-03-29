@@ -1,16 +1,15 @@
-// servers.js is only for the making of the socketio server and the express server
+//Where the servers are created
 // Agar.io clone
 const express = require('express');
 const app = express();
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname+'/public'));
+const expressServer = app.listen(9000);
 const socketio = require('socket.io');
-const expressServer = app.listen(8080);
 const io = socketio(expressServer);
-const helmet = require('helmet')
-app.use(helmet());
-console.log("Express and socketio are listening on port 8080");
 
 // App organization
+// servers.js is NOT the entry point. it creates our servers
+// and exports them
 module.exports = {
     app,
     io

@@ -1,4 +1,4 @@
 
-// This is the file that we will run with Node.
-require('./sockets/socketMain')
+//this is the file we will run with Node/nodemon
 require('./expressStuff/expressMain')
+require('./socketStuff/socketMain');
