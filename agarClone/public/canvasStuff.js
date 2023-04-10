@@ -1,5 +1,5 @@
 const init = ()=>{
-    // console.log("init")
+    console.log(orbs)
     draw()
 }
 
@@ -11,10 +11,11 @@ player.locY = Math.floor(500 * Math.random() + 10); // vertical axis
 //==========================
 const draw = ()=>{
 
-    //clearRect clears out the canvas, so we can draw on a clean canvas next frame/draw()
-    context.clearRect(0,0,canvas.width,canvas.height)
     //reset the context traslate back to default
     context.setTransform(1,0,0,1,0,0);
+
+    //clearRect clears out the canvas, so we can draw on a clean canvas next frame/draw()
+    context.clearRect(0,0,canvas.width,canvas.height)
 
     //clamp the screen/vp to the players location (x,y)
     const camX = -player.locX + canvas.width/2
@@ -25,7 +26,7 @@ const draw = ()=>{
     context.beginPath()
     context.fillStyle = 'rgb(255,0,0)'
     context.arc(player.locX,player.locY,10,0,Math.PI*2) //draw an arc/circle
-    context.arc(200,200,10,0,Math.PI*2) //draw an arc/circle
+    // context.arc(200,200,10,0,Math.PI*2) //draw an arc/circle
     //arg1 and arg2 are center x and centery of the arc
     //arg3 = radius of the circle
     //arg4 = where to start drawing in radians - 0 = 3:00
@@ -34,6 +35,14 @@ const draw = ()=>{
     context.lineWidth = 3; //how wide to draw a line in pixels
     context.strokeStyle = 'rgb(0,255,0)' // draw a green line
     context.stroke() //draw the line (border)
+
+    orbs.forEach(orb=>{
+        context.beginPath(); //this will start a new path
+        context.fillStyle = orb.color
+        context.arc(orb.locX,orb.locY,orb.radius,0,Math.PI*2);
+        context.fill();
+    })
+
     // requestAnimationFrame is like a controlled loop
     // it runs recursively, every paint/frame. If the framerate is 35 fps
     requestAnimationFrame(draw); 
@@ -68,7 +77,7 @@ canvas.addEventListener('mousemove',(event)=>{
     xV = xVector;
     yV = yVector;
 
-    if((player.locX < 5 && player.xVector < 0) || (player.locX > 500) && (xV > 0)){
+    if((player.locX < 5 && xV < 0) || (player.locX > 500) && (xV > 0)){
         player.locY -= speed * yV;
     }else if((player.locY < 5 && yV > 0) || (player.locY > 500) && (yV < 0)){
         player.locX += speed * xV;
