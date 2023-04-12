@@ -38,5 +38,5 @@ document.querySelector('.start-game').addEventListener('click',(e)=>{
     //show the hiddenOnStart elements
     const elArray = Array.from(document.querySelectorAll('.hiddenOnStart'))
     elArray.forEach(el=>el.removeAttribute('hidden'))
-    init();
+    init(); //init is iniside of socketStuff.js
 })
