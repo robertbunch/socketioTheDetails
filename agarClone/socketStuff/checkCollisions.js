@@ -39,7 +39,7 @@ const checkForPlayerCollisions = (pData,pConfig,players,playersForUsers,playerId
     //PLAYER COLLISIONS	
     for(let i = 0; i<players.length; i++){
         const p = players[i];
-        if(p.socketId != playerId){
+        if(p.socketId && p.socketId != playerId){ //Added p.socketId test in case player has been removed from players
             let pLocx = p.playerData.locX
             let pLocy = p.playerData.locY
             let pR = p.playerData.radius
@@ -61,7 +61,7 @@ const checkForPlayerCollisions = (pData,pConfig,players,playersForUsers,playerId
                         pData.score += (p.score + 10);
                         pData.playersAbsorbed += 1;
                         p.alive = false;
-                        pData.radius += (p.radius * 0.25)
+                        pData.radius += p.playerData.radius * 0.25
                         const collisionData = {
                             absorbed: p.playerData.name,
                             absorbedBy: pData.name,
@@ -70,7 +70,7 @@ const checkForPlayerCollisions = (pData,pConfig,players,playersForUsers,playerId
                         if(pConfig.zoom > 1){
                             pConfig.zoom -= (pR * 0.25) * .001;
                         }
-                        players.splice(i, 1); //remove player from server players array
+                        players.splice(i, 1,{}); //remove player from server players array
                         playersForUsers.splice(i,1) //remove player from players array used by clients
                         return collisionData; //essentially a return statement (because I could't get it work without a promise?)
                         break;
