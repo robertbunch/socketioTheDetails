@@ -71,7 +71,7 @@ const checkForPlayerCollisions = (pData,pConfig,players,playersForUsers,playerId
                             pConfig.zoom -= (pR * 0.25) * .001;
                         }
                         players.splice(i, 1,{}); //remove player from server players array
-                        playersForUsers.splice(i,1) //remove player from players array used by clients
+                        playersForUsers.splice(i,1,{}) //remove player from players array used by clients
                         return collisionData; //essentially a return statement (because I could't get it work without a promise?)
                         break;
                     }
