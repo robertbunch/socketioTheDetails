@@ -26,3 +26,14 @@ socket.on('tick',(playersArray)=>{
     player.locX = players[player.indexInPlayers].playerData.locX
     player.locY = players[player.indexInPlayers].playerData.locY
 })
+
+socket.on('orbSwitch',orbData=>{
+    //the server just told us that an orb was absorbed. Replace it in the orbs array!
+    orbs.splice(orbData.capturedOrbI,1,orbData.newOrb);
+})
+
+socket.on('playerAbsorbed', absorbData=>{
+    console.log('===================')
+    console.log(`Player who was absorbed ${absorbData.absorbed}`)
+    console.log(`Player who absorbed another player ${absorbData.absorbedBy}`)
+})
