@@ -69,17 +69,14 @@ io.on('connect',(socket)=>{
         const xV = player.playerConfig.xVector = data.xVector;
         const yV = player.playerConfig.yVector = data.yVector;
 
-        if((player.playerData.locX > 5 && xV > 0) || (player.playerData.locX < 500) && (xV < 0) 
-            &&
-            (player.playerData.locY > 5 && yV < 0) || (player.playerData.locY < 500) && (yV > 0))
-        {
-            player.playerData.locX += speed * xV;
-            player.playerData.locY -= speed * yV;
-        }else if((player.playerData.locX < 5 && xV < 0) || (player.playerData.locX > 500) && (xV > 0)){
+        if((player.playerData.locX < 5 && xV < 0) || (player.playerData.locX > 500) && (xV > 0)){
             player.playerData.locY -= speed * yV;
         }else if((player.playerData.locY < 5 && yV > 0) || (player.playerData.locY > 500) && (yV < 0)){
             player.playerData.locX += speed * xV;
-        }
+        }else{
+            player.playerData.locX += speed * xV;
+            player.playerData.locY -= speed * yV;
+        }  
     })
 
     socket.on('disconnect',()=>{
