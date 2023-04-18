@@ -23,6 +23,10 @@ const draw = ()=>{
 
     //draw all the players
     players.forEach(p=>{
+        if(!p.playerData){
+            //if the playerData doesn't exist, this is an absobred player and we don't draw
+            return 
+        }
         context.beginPath()
         context.fillStyle = p.playerData.color;
         context.arc(p.playerData.locX,p.playerData.locY,p.playerData.radius,0,Math.PI*2) //draw an arc/circle
