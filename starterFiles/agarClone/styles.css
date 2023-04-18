@@ -226,5 +226,6 @@ canvas{
 	background-color: #e600e6;
 	margin: auto;
 	opacity: 0;
+	transition: all 2s;
 }
 

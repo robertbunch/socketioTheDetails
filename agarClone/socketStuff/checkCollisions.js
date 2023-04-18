@@ -58,7 +58,7 @@ const checkForPlayerCollisions = (pData,pConfig,players,playersForUsers,playerId
             //COLLISION!!
                     if(pData.radius > pR){
                 // ENEMY DEATH
-                        pData.score += (p.score + 10);
+                        pData.score += (p.playerData.score + 10);
                         pData.playersAbsorbed += 1;
                         p.alive = false;
                         pData.radius += p.playerData.radius * 0.25
