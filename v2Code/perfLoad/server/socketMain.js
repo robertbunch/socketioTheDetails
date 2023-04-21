@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
-mongoose.connect('mongodb://127.0.0.1/perfData', {useNewUrlParser: true});
-const Machine = require('./models/Machine');
+// const mongoose = require('mongoose')
+// mongoose.connect('mongodb://127.0.0.1/perfData', {useNewUrlParser: true});
+// const Machine = require('./models/Machine');
 
 function socketMain(io, socket){
     let macA;
@@ -14,13 +14,13 @@ function socketMain(io, socket){
             // valid ui client has joined
             socket.join('ui');
             console.log("A react client has joined!");
-            Machine.find({}, (err,docs)=>{
-                docs.forEach((aMachine)=>{
-                    // on load, assume that all machines are offline
-                    aMachine.isActive = false;
-                    io.to('ui').emit('data',aMachine);
-                })
-            })
+            // Machine.find({}, (err,docs)=>{
+            //     docs.forEach((aMachine)=>{
+            //         // on load, assume that all machines are offline
+            //         aMachine.isActive = false;
+            //         io.to('ui').emit('data',aMachine);
+            //     })
+            // })
         }else{
             // an invalid client has joined. Goodbye
             socket.disconnect(true);
@@ -56,26 +56,26 @@ function socketMain(io, socket){
 function checkAndAdd(data){
     // because we are doing db stuff, js wont wait for the db
     // so we need to make this a promise
-    return new Promise((resolve, reject)=>{
-        Machine.findOne(
-            {macA: data.macA},
-            (err,doc)=>{
-                if(err){
-                    throw err;
-                    reject(err);
-                }else if(doc === null){
-                    // these are the droids we're looking for!
-                    // the record is not in the db, so add it!
-                    let newMachine = new Machine(data);
-                    newMachine.save(); //actually save it
-                    resolve('added')
-                }else{
-                    // it is in the db. just resolve
-                    resolve('found');
-                }
-            }
-        )
-    });
+    // return new Promise((resolve, reject)=>{
+    //     Machine.findOne(
+    //         {macA: data.macA},
+    //         (err,doc)=>{
+    //             if(err){
+    //                 throw err;
+    //                 reject(err);
+    //             }else if(doc === null){
+    //                 // these are the droids we're looking for!
+    //                 // the record is not in the db, so add it!
+    //                 let newMachine = new Machine(data);
+    //                 newMachine.save(); //actually save it
+    //                 resolve('added')
+    //             }else{
+    //                 // it is in the db. just resolve
+    //                 resolve('found');
+    //             }
+    //         }
+    //     )
+    // });
 }
 
 module.exports = socketMain;
