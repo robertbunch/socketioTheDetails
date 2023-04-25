@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@socket.io/cluster-adapter": "^0.2.2",
+    "@socket.io/sticky": "^1.0.3",
     "farmhash": "^3.3.0",
     "socket.io": "^4.6.1",
     "socket.io-redis": "^6.1.1"
