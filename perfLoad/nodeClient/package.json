@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "farmhash": "^3.3.0",
     "socket.io-client": "^4.6.1"
   }
 }
