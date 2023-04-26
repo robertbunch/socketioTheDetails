@@ -1,14 +1,44 @@
 // The node program that captures local performance data
 // and sends it via socket to the server
 // Req:
-// - farmhash
 // - socket.io-client
 
 const os = require('os'); //native to node!
 const io = require('socket.io-client');
-const socket = io('http://127.0.0.1:3000') // :3000 is where our server is listening
+const options = {
+    auth:{
+        token: "239rfaiskdfvq243EGa4q3wefsdad"
+    }
+}
+const socket = io('http://127.0.0.1:3000',options) // :3000 is where our server is listening
 socket.on('connect',()=>{
-    console.log("We connected to the server!")
+    // console.log("We connected to the server!")
+    //we need a way to identify this machine to the server, for front-end useage
+    //we could use, socket.id, randomHash, ipAddress
+    //what about macA?
+    const nI = os.networkInterfaces(); //a list of all network interfaces on this machine
+    let macA; //mac address
+    //loop through all nI until we find a non-internal one.
+    for(let key in nI){
+        const isInternetFacing = !nI[key][0].internal;
+        if(isInternetFacing){
+            //we have a macA we can use!
+            macA = nI[key][0].mac;
+            break;
+        }
+    }
+    // console.log(macA);
+    const perfDataInterval = setInterval(async()=>{
+        //every second call performance data and emit
+        const perfData = await performanceLoadData()
+        perfData.macA = macA;
+        socket.emit('perfData',perfData);
+    },1000);
+
+    socket.on('disconnect',()=>{
+        clearInterval(perfDataInterval) //if we disconnect for any reason... stop ticking./
+        //this includes!!!! reconnect
+    })
 })
 
 const cpuAverage = ()=>{
