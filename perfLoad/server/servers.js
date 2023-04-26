@@ -53,14 +53,7 @@ if (cluster.isPrimary) {
   console.log(`Worker ${process.pid} started`);
 
   const httpServer = http.createServer();
-  const io = new Server(httpServer,{
-    cors:{
-        origin: 'http://localhost:3001',
-        credentials: true,
-        methods: ["GET","POST"],
-        transports: ['websocket','polling'],
-    }
-  });
+  const io = new Server(httpServer);
 
   // use the cluster adapter
   io.adapter(createAdapter()); //change from the default adapter
@@ -69,7 +62,7 @@ if (cluster.isPrimary) {
   setupWorker(io);
 
   io.on("connection", (socket) => {
-    console.log(`Someone connected on worker ${worker.process.pid}`);
-    socket.emit('welcome',"Welcome to our cluster driven socket io server!");
+    console.log(`Someone connected on worker ${process.pid }`);
+    socket.emit('welcome',"Welcome to our cluster driven socket.io server!");
   });
 }
