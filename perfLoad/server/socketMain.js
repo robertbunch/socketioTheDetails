@@ -11,6 +11,7 @@ const socketMain = (io)=>{
             //valid reactClient
             socket.join('reactClient'); //this client is a reactClient, put in appropriate room            
         }else{
+            //you do not belong here. Go away!
             socket.disconnect();
             console.log("YOU HAVE BEEN DISCONNECTED!!!")
         }
