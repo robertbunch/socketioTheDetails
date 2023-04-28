@@ -23,6 +23,14 @@ const socketMain = (io)=>{
             console.log(data);
         })
 
+        socket.on('testConnection',(data)=>{
+            console.log(data);
+        })
+        socket.on('welcomeButton',(data)=>{
+            console.log(data);
+        })
+        
+
     });
 }
 
