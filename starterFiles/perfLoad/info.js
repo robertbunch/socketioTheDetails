@@ -1,16 +1,15 @@
-import React from 'react';
 
-function Info(props){
+const Info =({data})=>{
     return (
         <div className="col-sm-3 col-sm-offset-1 cpu-info">
           <h3>Operating System</h3>
-          <div className="widget-text">{props.infoData.osType}</div>
+          <div className="widget-text">{data.osType}</div>
           <h3>Time Online</h3>
-          <div className="widget-text">{props.infoData.upTime}</div>
+          <div className="widget-text">{data.upTime}</div>
           <h3>Processor information</h3>
-          <div className="widget-text"><strong>Type:</strong> {props.infoData.cpuModel}</div>
-          <div className="widget-text"><strong>Number of Cores:</strong> {props.infoData.cpuNumCores}</div>
-          <div className="widget-text"><strong>Clock Speed:</strong> {props.infoData.cpuSpeed}</div>
+          <div className="widget-text"><strong>Type:</strong> {data.cpuModel}</div>
+          <div className="widget-text"><strong>Number of Cores:</strong> {data.cpuNumCores}</div>
+          <div className="widget-text"><strong>Clock Speed:</strong> {data.cpuSpeed}</div>
         </div>
     );
 }
