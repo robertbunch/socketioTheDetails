@@ -1,6 +1,6 @@
 const drawCircle = (canvas,currentLoad)=>{
     if(canvas){
-        let context = canvas.getContext('2d');
+        const context = canvas.getContext('2d');
         // Draw Inner Circle
         context.clearRect(0,0,500,500)
         context.fillStyle = "#ccc";
