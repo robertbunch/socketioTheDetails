@@ -21,6 +21,7 @@ const socketMain = (io)=>{
         socket.on('perfData',(data)=>{
             console.log("Tick...");
             console.log(data);
+            io.to('reactClient').emit('perfData',data)
         })
 
         socket.on('testConnection',(data)=>{
