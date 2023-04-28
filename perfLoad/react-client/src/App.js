@@ -24,8 +24,12 @@ function App() {
     })
   },[]) //run this once the component has rendered
 
+  const widgets = Object.values(performanceData).map(d=><Widget data={d} key={d.macA} />)
+
   return (
-    <Widget />
+    <>
+      {widgets}
+    </>
   );
 }
 
