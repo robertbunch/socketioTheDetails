@@ -1,4 +1,4 @@
-function drawCircle(canvas,currentLoad){
+const drawCircle = (canvas,currentLoad)=>{
     if(canvas){
         let context = canvas.getContext('2d');
         // Draw Inner Circle
