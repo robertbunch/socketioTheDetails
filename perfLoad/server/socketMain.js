@@ -2,6 +2,7 @@
 
 const socketMain = (io)=>{
     io.on("connection", (socket) => {
+        let machineMacA;
         const auth = socket.handshake.auth;
         console.log(auth.token);
         if(auth.token === "239rfaiskdfvq243EGa4q3wefsdad"){
@@ -21,6 +22,10 @@ const socketMain = (io)=>{
         socket.on('perfData',(data)=>{
             console.log("Tick...");
             console.log(data);
+            if(!machineMacA){
+                machineMacA = data.macA
+                io.to('reactClient').emit('connectedOrNot',{machineMacA,isAlive:true})
+            }
             io.to('reactClient').emit('perfData',data)
         })
 
@@ -31,6 +36,10 @@ const socketMain = (io)=>{
             console.log(data);
         })
         
+        socket.on('disconnect',(reason)=>{
+            //a nodeClient just disconnected. Let the front end know!
+            io.to('reactClient').emit('connectedOrNot',{machineMacA,isAlive:false})
+        })
 
     });
 }
