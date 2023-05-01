@@ -2,7 +2,7 @@
 const Cpu = ()=>{
 
     return(
-        <h1>Cpu</h1>
+        <div className="cpu col-3">Cpu</div>
     )
 
 }

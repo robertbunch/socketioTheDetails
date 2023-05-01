@@ -1,0 +1,46 @@
+.bold{
+    font-weight: bold;
+}
+
+.widget{
+    margin-bottom: 25px;
+    /* taken from https://css-tricks.com/examples/GradientBorder/ */
+    border-bottom: 3px solid black;
+    background-image: 
+        linear-gradient(transparent, #000),
+        linear-gradient(transparent, #000);
+    background-size: 3px 100%;
+    background-position: 0 0, 100% 0;
+    background-repeat: no-repeat; 
+    padding-bottom: 20px;
+    position: relative;
+}
+.not-active{
+    font-family: 'Montserrat Subrayada', sans-serif;
+    color: #8b0000;
+    font-size: 100px;
+    position: absolute;
+    z-index: 2;
+}
+
+.cpu-wdiget{
+    margin-top: 20px;
+}
+
+.cpu,.mem{
+    background-color: white;
+    position: relative;
+    text-align: center
+}
+
+.cpu-text, .mem-text{
+    position: absolute;
+    transform: translate(-45%, -50%);
+    top: 50%;
+    left: 50%;
+    font-size: 30px;
+}
+
+.canvas-wrapper{
+    position: relative;
+}
