@@ -6,23 +6,22 @@ import Widget from './perfDataComponents/Widget';
 function App() {
 
   const [ performanceData, setPerformanceData] = useState({})
+  const perfMachineData = {};
 
   useEffect(()=>{
-    // socket was created on load of the component (line 3).
-    //add a listener to that socket!
+    //listen for perfData
     socket.on('perfData',(data)=>{
-      //we just got some data!
-      // console.log(data);
-      //copy performanceData so we can mutate it!
-      const copyPerfData = {...performanceData};
-      //performanceData is NOT an array. its an {}
-      //this is because we don't know which machine just sent it's data
-      //so we can use the macA of the machine as it's property in performanceData
-      //every tick the data comes through, just overwrite that value
-      copyPerfData[data.macA] = data;
-      setPerformanceData(copyPerfData);
+      //one line of data came through for one machine
+      //updateour LOCAL (non-state) variable, to include that new data
+      perfMachineData[data.macA] = data; //this will not cause a re-render
     })
   },[]) //run this once the component has rendered
+ 
+  useEffect(()=>{
+    setInterval(()=>{
+      setPerformanceData(perfMachineData)
+    },1000)
+  },[])
 
   const widgets = Object.values(performanceData).map(d=><Widget data={d} key={d.macA} />)
 

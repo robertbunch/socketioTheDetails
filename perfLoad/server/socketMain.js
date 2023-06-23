@@ -1,6 +1,6 @@
 //Where socket.io listeners and (most) emitters
 
-const socketMain = (io)=>{
+const socketMain = (io,pid)=>{
     io.on("connection", (socket) => {
         let machineMacA;
         const auth = socket.handshake.auth;
@@ -20,8 +20,8 @@ const socketMain = (io)=>{
         socket.emit('welcome',"Welcome to our cluster driven socket.io server!");
 
         socket.on('perfData',(data)=>{
-            console.log("Tick...");
-            console.log(data);
+            console.log("Tick...",pid,data.macA);
+            // console.log(data);
             if(!machineMacA){
                 machineMacA = data.macA
                 io.to('reactClient').emit('connectedOrNot',{machineMacA,isAlive:true})

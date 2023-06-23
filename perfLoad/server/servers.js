@@ -70,6 +70,6 @@ if (cluster.isPrimary) {
 
   //socketMain is OUR file where our emits and listens happen.
   //it needs the io object
-  socketMain(io);
+  socketMain(io,process.pid);
 
 }

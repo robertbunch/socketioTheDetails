@@ -23,7 +23,7 @@ socket.on('connect',()=>{
         const isInternetFacing = !nI[key][0].internal;
         if(isInternetFacing){
             //we have a macA we can use!
-            macA = nI[key][0].mac;
+            macA = nI[key][0].mac + Math.floor(Math.random()*100000);
             break;
         }
     }
