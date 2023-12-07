@@ -1,0 +1,42 @@
+<div id="output">Output here:</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io.connect('http://localhost:8000'),
+        output = document.getElementById('output');
+ 
+    // ClientRpc getting executed
+    const square = (num) =>{
+        console.log(num)
+        output.innerHTML = "<div>" + num + " x " + num + " is "
+            + (num * num) + "</div>";
+    }
+ 
+    let squareCb
+    socket.on('connect', async function () {
+        socket.emit('give me a number', square);
+        squareCb = await socket.emitWithAck('getSquareFunc');
+        console.log(squareCb)
+        squareCb(3)
+    });
+ 
+    socket.on('runsSquareWith',num=>{
+        square(num)
+    })
+
+    // This is a ServerRpc - call
+    // Does it have to be event-driven
+    // Could this be user input driven 
+    let scopedCb = ()=>{}
+    socket.on('give me a sentence', function (cb) {
+        scopedCb = cb
+        cb('Ok, here is a sentence.');
+    });
+
+    setInterval(()=>{
+        console.log("Trying to run scopedCb")
+        scopedCb("Another") //function is null
+    },1000)
+
+ 
+</script>
